@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="ProyectoBC.Vistas.ReportesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="25">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- REPORTE 1: MULTAS PENDIENTES Y COBRADAS -->
+        <Border Grid.Column="0" Background="White" CornerRadius="12" Padding="20">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="15" Opacity="0.05" Direction="270" ShadowDepth="4"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,15">
+                    <TextBlock Text="Control de Multas" FontSize="18" FontWeight="Bold" Foreground="#2D3748" VerticalAlignment="Center"/>
+                    <Button Content="Registrar Pago" HorizontalAlignment="Right" Background="#38A169" Foreground="White" FontWeight="Bold" Padding="14,7" BorderThickness="0" Cursor="Hand" Click="BtnPagarMulta_Click"/>
+                </Grid>
+
+                <DataGrid Grid.Row="1" x:Name="DgMultas" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#E2E8F0" Background="Transparent" BorderThickness="0" RowHeight="38">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID_Multa}" Width="50"/>
+                        <DataGridTextColumn Header="Lector" Binding="{Binding Lector}" Width="*"/>
+                        <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha_Emision, StringFormat=dd/MM/yyyy}" Width="95"/>
+                        <DataGridTextColumn Header="Monto (Bs)" Binding="{Binding Monto, StringFormat=N2}" Width="85"/>
+                        <DataGridTextColumn Header="Pagado (Bs)" Binding="{Binding Pagado, StringFormat=N2}" Width="85"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <!-- REPORTE 2: TOP LIBROS MÁS SOLICITADOS -->
+        <Border Grid.Column="2" Background="White" CornerRadius="12" Padding="20">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="15" Opacity="0.05" Direction="270" ShadowDepth="4"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Libros Más Prestados" FontSize="18" FontWeight="Bold" Foreground="#2D3748" Margin="0,0,0,15"/>
+
+                <DataGrid Grid.Row="1" x:Name="DgTopLibros" AutoGenerateColumns="False" IsReadOnly="True"
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#E2E8F0" Background="Transparent" BorderThickness="0" RowHeight="38">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Libro" Binding="{Binding Titulo}" Width="*"/>
+                        <DataGridTextColumn Header="Categoría" Binding="{Binding Nombre_Categoria}" Width="140"/>
+                        <DataGridTextColumn Header="Total Préstamos" Binding="{Binding TotalPrestamos}" Width="120"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

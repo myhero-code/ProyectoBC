@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="ProyectoBC.Vistas.UsuariosView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="25">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- FORMULARIO DE LECTOR -->
+        <Border Grid.Column="0" Background="White" CornerRadius="12" Padding="20" Margin="0,0,20,0">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="15" Opacity="0.05" Direction="270" ShadowDepth="4"/>
+            </Border.Effect>
+            <StackPanel>
+                <TextBlock Text="Registro de Lectores" FontSize="18" FontWeight="Bold" Foreground="#2D3748" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Cédula de Identidad (CI / DNI) *" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtCI" Height="34" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Nombres *" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtNombre" Height="34" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Apellidos *" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtApellido" Height="34" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Teléfono / Celular" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtTelefono" Height="34" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Fecha de Registro" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <DatePicker x:Name="DpFechaInicio" Height="34" VerticalContentAlignment="Center" Margin="0,0,0,18"/>
+
+                <Button x:Name="BtnGuardarLector" Content="Registrar Lector" Height="38" Background="#2B6CB0" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Margin="0,0,0,8" Click="BtnGuardarLector_Click"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="Limpiar" Height="34" Background="#EDF2F7" Foreground="#2D3748" FontWeight="SemiBold" BorderThickness="0" Cursor="Hand" Click="BtnLimpiar_Click"/>
+                    <Button Grid.Column="2" Content="Eliminar" Height="34" Background="#FED7D7" Foreground="#C53030" FontWeight="SemiBold" BorderThickness="0" Cursor="Hand" Click="BtnEliminar_Click"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- TABLA DE LECTORES -->
+        <Border Grid.Column="1" Background="White" CornerRadius="12" Padding="20">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="15" Opacity="0.05" Direction="270" ShadowDepth="4"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,15">
+                    <TextBlock Text="Directorio de Lectores" FontSize="18" FontWeight="Bold" Foreground="#2D3748" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TxtBuscarLector" Width="260" Height="34" HorizontalAlignment="Right" Padding="10,0" VerticalContentAlignment="Center" ToolTip="Buscar por CI, nombre o apellido..." TextChanged="TxtBuscarLector_TextChanged"/>
+                </Grid>
+
+                <DataGrid Grid.Row="1" x:Name="DgLectores" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#E2E8F0" Background="Transparent" BorderThickness="0" RowHeight="38"
+                          SelectionChanged="DgLectores_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID_Lector}" Width="55"/>
+                        <DataGridTextColumn Header="CI / DNI" Binding="{Binding DNI_CI}" Width="120"/>
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                        <DataGridTextColumn Header="Apellido" Binding="{Binding Apellido}" Width="*"/>
+                        <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}" Width="120"/>
+                        <DataGridTextColumn Header="Fecha Inicio" Binding="{Binding Fecha_Inicio, StringFormat=dd/MM/yyyy}" Width="110"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="1124281494492940579.jpg" />
+    <None Remove="Bibliotreca.jpg" />
+    <None Remove="Descargar icono de vector azul de usuario aislado sobre fondo blanco gratis.jpg" />
+    <None Remove="Gemini_Generated_Image_fbshwxfbshwxfbsh.jpg" />
+    <None Remove="Gemini_Generated_Image_uef926uef926uef9.jpg" />
+    <None Remove="Key free icons designed by Magnific.jpg" />
+    <None Remove="Logo %282%29.jpg" />
+    <None Remove="Logo.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="1124281494492940579.jpg" />
+    <Resource Include="Bibliotreca.jpg" />
+    <Resource Include="Descargar icono de vector azul de usuario aislado sobre fondo blanco gratis.jpg" />
+    <Resource Include="Key free icons designed by Magnific.jpg" />
+    <Resource Include="Logo (2).jpg" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,38 @@
+﻿<Window x:Class="ProyectoBC.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProyectoBC"
+        mc:Ignorable="d"
+        Title="ProyectoBC" Height="450" Width="800">
+    <Viewbox Stretch="Uniform">
+        <Grid Width="800" Height="450">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="53*"/>
+                <ColumnDefinition Width="747*"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="/Bibliotreca.jpg" Stretch="Fill" Grid.ColumnSpan="2"/>
+            <Border Background="#C8FFFFFF" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="290" VerticalAlignment="Top" Width="266" Grid.Column="1" Margin="214,54,0,0">
+                <Image HorizontalAlignment="Left" Height="72" Margin="25,9,0,0" VerticalAlignment="Top" Width="68" Source="/Logo (2).jpg" Stretch="Fill" Opacity="0.8"/>
+            </Border>
+            <Label Grid.Column="1" Content="M" HorizontalAlignment="Left" Height="41" Margin="271,80,0,0" VerticalAlignment="Top" Width="48" FontWeight="Bold" FontSize="26" Opacity="0.695" Background="#00000000" Foreground="#FF0D1236" RenderTransformOrigin="0.502,0.433"/>
+            <Label Grid.Column="1" Content="Biblioteca" HorizontalAlignment="Left" Height="41" Margin="314,80,0,0" VerticalAlignment="Top" Width="166" FontWeight="Bold" FontSize="18" Foreground="#FF605EFD" Opacity="0.8"/>
+            <Label Grid.Column="1" Content="Municipal" HorizontalAlignment="Left" Height="37" Margin="331,107,0,0" VerticalAlignment="Top" Width="167" FontSize="18" FontWeight="Bold" Foreground="#FF5F5DFC" Opacity="0.8"/>
+            <TextBox x:Name="TxtUsuario" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="243,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="208" RenderTransformOrigin="6,0.994" Opacity="0.8" Padding="28,0,0,0" VerticalContentAlignment="Center" FontSize="10" TextChanged="TxtUsuario_TextChanged"/>
+            <Image HorizontalAlignment="Left" Height="21" Margin="247,162,0,0" VerticalAlignment="Top" Width="21" Source="/Descargar icono de vector azul de usuario aislado sobre fondo blanco gratis.jpg" RenderTransformOrigin="0.438,0.453" Stretch="Fill" Grid.Column="1" Opacity="0.8"/>
+            <Label Grid.Column="1" Content="Nombre de Usuario" HorizontalAlignment="Left" Height="19" Margin="268,153,0,0" VerticalAlignment="Top" Width="63" FontSize="6" Opacity="0.5" RenderTransformOrigin="0.329,0.484"/>
+            <PasswordBox x:Name="TxtPassword" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="243,207,0,0" VerticalAlignment="Top" Width="208" Opacity="0.8" Padding="28,0,0,0" VerticalContentAlignment="Center" PasswordChanged="TxtPassword_PasswordChanged"/>
+            <TextBox x:Name="TxtPasswordVisible" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="243,207,0,0" VerticalAlignment="Top" Width="208" Opacity="0.8" Padding="28,0,0,0" VerticalContentAlignment="Center" Visibility="Collapsed" TextChanged="TxtPasswordVisible_TextChanged"/>
+            <Label Grid.Column="1" Content="Contraseña" HorizontalAlignment="Left" Height="20" Margin="269,202,0,0" VerticalAlignment="Top" Width="63" FontSize="6" Opacity="0.5" RenderTransformOrigin="0.329,0.484"/>
+            <Image HorizontalAlignment="Left" Height="17" Margin="247,213,0,0" VerticalAlignment="Top" Width="21" Source="/Key free icons designed by Magnific.jpg" RenderTransformOrigin="0.438,0.453" Stretch="Fill" Grid.Column="1" Opacity="0.5" Panel.ZIndex="10"/>
+            <CheckBox x:Name="ChkVerPassword" Content="Ver Contraseña" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="243,249,0,0" FontSize="8" VerticalContentAlignment="Center" Opacity="0.7" Height="14" Width="97" Checked="ChkVerPassword_Checked" Unchecked="ChkVerPassword_Unchecked"/>
+            <Border CornerRadius="8" Background="#FF4F7EF4" HorizontalAlignment="Left" Height="36" Margin="276,275,0,0" VerticalAlignment="Top" Width="142" Grid.Column="1" Panel.ZIndex="20">
+                <Button x:Name="BtnLogin" Content="Entrar" Background="Transparent" BorderThickness="0" Foreground="White" FontWeight="Bold" Click="BtnLogin_Click" Cursor="Hand"/>
+            </Border>
+            <Border CornerRadius="8" Background="#FFD92424" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="25" Width="51" Margin="15,0,0,15" Panel.ZIndex="20" Grid.ColumnSpan="2">
+                <Button x:Name="BtnCerrar" Content="Salir" Background="Transparent" BorderThickness="0" Foreground="White" FontWeight="Bold" Click="BtnCerrar_Click" Cursor="Hand"/>
+            </Border>
+        </Grid>
+    </Viewbox>
+</Window>

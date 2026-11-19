@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="ProyectoBC.Vistas.ConfiguracionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <Grid Margin="25">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- SECCIÓN 1: CATEGORÍAS DE LIBROS -->
+        <Border Grid.Column="0" Background="White" CornerRadius="12" Padding="20">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="15" Opacity="0.05" Direction="270" ShadowDepth="4"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Categorías de Libros" FontSize="18" FontWeight="Bold" Foreground="#2D3748" Margin="0,0,0,15"/>
+
+                <StackPanel Grid.Row="1" Margin="0,0,0,15">
+                    <TextBlock Text="Nombre de Categoría *" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBox x:Name="TxtNombreCategoria" Height="34" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,8"/>
+
+                    <TextBlock Text="Descripción" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBox x:Name="TxtDescCategoria" Height="34" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+
+                    <Button Content="+ Agregar Categoría" Height="36" Background="#2B6CB0" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnAgregarCategoria_Click"/>
+                </StackPanel>
+
+                <DataGrid Grid.Row="2" x:Name="DgCategorias" AutoGenerateColumns="False" IsReadOnly="True"
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#E2E8F0" Background="Transparent" BorderThickness="0" RowHeight="36">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID_Categoria}" Width="50"/>
+                        <DataGridTextColumn Header="Categoría" Binding="{Binding Nombre_Categoria}" Width="160"/>
+                        <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <!-- SECCIÓN 2: USUARIOS DEL SISTEMA (LOGIN) Y CONEXIÓN -->
+        <Border Grid.Column="2" Background="White" CornerRadius="12" Padding="20">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="15" Opacity="0.05" Direction="270" ShadowDepth="4"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Usuarios de Acceso (Login)" FontSize="18" FontWeight="Bold" Foreground="#2D3748" Margin="0,0,0,15"/>
+
+                <StackPanel Grid.Row="1" Margin="0,0,0,15">
+                    <TextBlock Text="Nombre de Usuario *" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBox x:Name="TxtNuevoUsuario" Height="34" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,8"/>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Contraseña *" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <PasswordBox x:Name="TxtNuevaPass" Height="34" Padding="8,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Cargo *" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="CmbCargo" Height="34" SelectedIndex="0">
+                                <ComboBoxItem Content="Administrador"/>
+                                <ComboBoxItem Content="Bibliotecario"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+
+                    <Button Content="+ Crear Usuario de Sistema" Height="36" Background="#2B6CB0" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnCrearUsuario_Click"/>
+                </StackPanel>
+
+                <DataGrid Grid.Row="2" x:Name="DgUsuariosLogin" AutoGenerateColumns="False" IsReadOnly="True"
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#E2E8F0" Background="Transparent" BorderThickness="0" RowHeight="36">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id_Usuario}" Width="50"/>
+                        <DataGridTextColumn Header="Usuario" Binding="{Binding Nombre_Usuario}" Width="*"/>
+                        <DataGridTextColumn Header="Cargo" Binding="{Binding Cargo}" Width="150"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Button Grid.Row="3" Content="Probar Conexión SQL Server" Height="36" Margin="0,15,0,0" Background="#EDF2F7" Foreground="#2D3748" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnProbarConexion_Click"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
