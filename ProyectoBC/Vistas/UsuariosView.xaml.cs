@@ -53,7 +53,6 @@ namespace ProyectoBC.Vistas
                     new SqlParameter("@telefono", string.IsNullOrWhiteSpace(TxtTelefono.Text) ? DBNull.Value : TxtTelefono.Text.Trim()),
                     new SqlParameter("@fecha", DpFechaInicio.SelectedDate ?? DateTime.Today)
                 };
-
                 if (_idLectorSeleccionado == null)
                 {
                     string sql = @"

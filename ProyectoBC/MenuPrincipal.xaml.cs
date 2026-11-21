@@ -149,6 +149,9 @@ namespace ProyectoBC
                         case "BtnCatalogoLibros":
                             ContenedorVistas.Content = new CatalogoLibrosView();
                             break;
+                        case "BtnAutores":
+                            ContenedorVistas.Content = new AutoresView();
+                            break;
                         case "BtnPrestamos":
                             ContenedorVistas.Content = new PrestamosView();
                             break;

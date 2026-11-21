@@ -2,66 +2,121 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="Transparent">
-    <Grid Margin="25">
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="385"/>
+            <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- FORMULARIO DE LIBRO -->
-        <Border Grid.Column="0" Background="White" CornerRadius="12" Padding="20" Margin="0,0,20,0">
-            <Border.Effect>
-                <DropShadowEffect Color="Black" BlurRadius="15" Opacity="0.05" Direction="270" ShadowDepth="4"/>
-            </Border.Effect>
-            <StackPanel>
-                <TextBlock Text="Gestión de Libros" FontSize="18" FontWeight="Bold" Foreground="#2D3748" Margin="0,0,0,15"/>
+        <!-- PANEL IZQUIERDO: FORMULARIO DE LIBRO (CON PORTADA Y MÚLTIPLES AUTORES) -->
+        <Border Grid.Column="0" Background="White" CornerRadius="12" Padding="20">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="0,0,6,0">
+                    <TextBlock Text="Gestión de Libro" FontSize="18" FontWeight="Bold" Foreground="#1A202C" Margin="0,0,0,14"/>
 
-                <TextBlock Text="Título del Libro *" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                <TextBox x:Name="TxtTitulo" Height="34" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+                    <!-- Portada del Libro -->
+                    <TextBlock Text="Portada del Libro" FontSize="12" FontWeight="SemiBold" Foreground="#4A5568" Margin="0,0,0,6"/>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Autor *" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                <ComboBox x:Name="CmbAutor" Height="34" DisplayMemberPath="Nombre_Autor" SelectedValuePath="ID_Autor" IsEditable="True" Margin="0,0,0,10"/>
+                        <Border Grid.Column="0" Width="75" Height="95" Background="#EDF2F7" CornerRadius="6" BorderBrush="#CBD5E0" BorderThickness="1">
+                            <Image x:Name="ImgPortadaPreview" Stretch="UniformToFill"/>
+                        </Border>
 
-                <TextBlock Text="Categoría *" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                <ComboBox x:Name="CmbCategoria" Height="34" DisplayMemberPath="Nombre_Categoria" SelectedValuePath="ID_Categoria" Margin="0,0,0,10"/>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                            <Button Content="🖼️ Seleccionar Imagen..." Height="34" Background="#EDF2F7" Foreground="#2D3748"
+                                    FontWeight="SemiBold" BorderThickness="0" Cursor="Hand" Click="BtnSeleccionarImagen_Click"/>
+                            <TextBlock x:Name="TxtRutaImagen" Text="Sin imagen seleccionada" FontSize="10" Foreground="#718096"
+                                       TextTrimming="CharacterEllipsis" Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Grid>
 
-                <TextBlock Text="Editorial" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                <TextBox x:Name="TxtEditorial" Height="34" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+                    <!-- Título -->
+                    <TextBlock Text="Título del Libro *" FontSize="12" FontWeight="SemiBold" Foreground="#4A5568" Margin="0,0,0,4"/>
+                    <TextBox x:Name="TxtTitulo" Height="34" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
 
-                <Grid Margin="0,0,0,15">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="Año Publicación" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                        <TextBox x:Name="TxtAnio" Height="34" Padding="8,0" VerticalContentAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2">
-                        <TextBlock Text="Género" Foreground="#4A5568" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                        <TextBox x:Name="TxtGenero" Height="34" Padding="8,0" VerticalContentAlignment="Center"/>
-                    </StackPanel>
-                </Grid>
+                    <!-- Selector de Múltiples Autores -->
+                    <TextBlock Text="Autores del Libro * (puedes añadir varios)" FontSize="12" FontWeight="SemiBold" Foreground="#4A5568" Margin="0,0,0,4"/>
+                    <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="85"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="CmbAutoresDisponibles" Grid.Column="0" Height="34" VerticalContentAlignment="Center"/>
+                        <Button Grid.Column="2" Content="+ Añadir" Height="34" Background="#319795" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnAgregarAutorALista_Click"/>
+                    </Grid>
 
-                <Button x:Name="BtnGuardar" Content="Guardar Libro" Height="38" Background="#2B6CB0" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Margin="0,0,0,8" Click="BtnGuardar_Click"/>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="8"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Content="Limpiar" Height="34" Background="#EDF2F7" Foreground="#2D3748" FontWeight="SemiBold" BorderThickness="0" Cursor="Hand" Click="BtnLimpiar_Click"/>
-                    <Button Grid.Column="2" Content="Eliminar" Height="34" Background="#FED7D7" Foreground="#C53030" FontWeight="SemiBold" BorderThickness="0" Cursor="Hand" Click="BtnEliminar_Click"/>
-                </Grid>
-            </StackPanel>
+                    <!-- Lista de autores agregados al libro -->
+                    <ListBox x:Name="LstAutoresSeleccionados" Height="76" Margin="0,0,0,10" BorderBrush="#CBD5E0" Background="#F7FAFC">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Width="295">
+                                    <TextBlock Text="{Binding NombreAutor}" VerticalAlignment="Center" FontSize="12" Foreground="#2D3748"/>
+                                    <Button Content="✕" HorizontalAlignment="Right" Background="Transparent" Foreground="#E53E3E"
+                                            FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnQuitarAutorDeLista_Click"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <!-- Editorial y Año -->
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="95"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Editorial" FontSize="12" FontWeight="SemiBold" Foreground="#4A5568" Margin="0,0,0,4"/>
+                            <TextBox x:Name="TxtEditorial" Height="34" Padding="8,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Año" FontSize="12" FontWeight="SemiBold" Foreground="#4A5568" Margin="0,0,0,4"/>
+                            <TextBox x:Name="TxtAnio" Height="34" Padding="8,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Género y Categoría -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Género" FontSize="12" FontWeight="SemiBold" Foreground="#4A5568" Margin="0,0,0,4"/>
+                            <TextBox x:Name="TxtGenero" Height="34" Padding="8,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Categoría" FontSize="12" FontWeight="SemiBold" Foreground="#4A5568" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="CmbCategoria" Height="34" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Botones de Acción -->
+                    <Button x:Name="BtnGuardarLibro" Content="Guardar Libro" Height="38" Background="#2B6CB0" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnGuardarLibro_Click" Margin="0,0,0,8"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Content="Limpiar" Height="34" Background="#EDF2F7" Foreground="#4A5568" FontWeight="SemiBold" BorderThickness="0" Cursor="Hand" Click="BtnLimpiar_Click"/>
+                        <Button Grid.Column="2" Content="Eliminar" Height="34" Background="#FED7D7" Foreground="#C53030" FontWeight="SemiBold" BorderThickness="0" Cursor="Hand" Click="BtnEliminarLibro_Click"/>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
         </Border>
 
-        <!-- LISTADO DE LIBROS -->
-        <Border Grid.Column="1" Background="White" CornerRadius="12" Padding="20">
-            <Border.Effect>
-                <DropShadowEffect Color="Black" BlurRadius="15" Opacity="0.05" Direction="270" ShadowDepth="4"/>
-            </Border.Effect>
+        <!-- PANEL DERECHO: TABLA DE CATÁLOGO -->
+        <Border Grid.Column="2" Background="White" CornerRadius="12" Padding="20">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -69,20 +124,26 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Margin="0,0,0,15">
-                    <TextBlock Text="Catálogo General de Libros" FontSize="18" FontWeight="Bold" Foreground="#2D3748" VerticalAlignment="Center"/>
+                    <TextBlock Text="Catálogo Registrado" FontSize="18" FontWeight="Bold" Foreground="#1A202C" VerticalAlignment="Center"/>
                     <TextBox x:Name="TxtBuscarLibro" Width="260" Height="34" HorizontalAlignment="Right" Padding="10,0" VerticalContentAlignment="Center" ToolTip="Buscar por título, autor o editorial..." TextChanged="TxtBuscarLibro_TextChanged"/>
                 </Grid>
 
-                <DataGrid Grid.Row="1" x:Name="DgLibros" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
-                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#E2E8F0" Background="Transparent" BorderThickness="0" RowHeight="38"
-                          SelectionChanged="DgLibros_SelectionChanged">
+                <DataGrid x:Name="DgLibros" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True"
+                          Background="White" BorderThickness="0" RowHeight="50" GridLinesVisibility="Horizontal"
+                          HorizontalGridLinesBrush="#EDF2F7" SelectionChanged="DgLibros_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding ID_Libro}" Width="55"/>
-                        <DataGridTextColumn Header="Título" Binding="{Binding Titulo}" Width="*"/>
-                        <DataGridTextColumn Header="Autor" Binding="{Binding Nombre_Autor}" Width="160"/>
-                        <DataGridTextColumn Header="Categoría" Binding="{Binding Nombre_Categoria}" Width="130"/>
-                        <DataGridTextColumn Header="Editorial" Binding="{Binding Editorial}" Width="130"/>
-                        <DataGridTextColumn Header="Año" Binding="{Binding Anio_Publicacion}" Width="70"/>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID_Libro}" Width="45"/>
+                        <DataGridTemplateColumn Header="Portada" Width="62">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Portada}" Width="34" Height="44" Stretch="UniformToFill"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Título" Binding="{Binding Titulo}" Width="1.4*"/>
+                        <DataGridTextColumn Header="Autores" Binding="{Binding Autores}" Width="1.3*"/>
+                        <DataGridTextColumn Header="Categoría" Binding="{Binding Nombre_Categoria}" Width="110"/>
+                        <DataGridTextColumn Header="Año" Binding="{Binding Anio_Publicacion}" Width="55"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

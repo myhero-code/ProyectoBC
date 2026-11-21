@@ -83,6 +83,7 @@
                 <StackPanel x:Name="PanelBotonesMenu" DockPanel.Dock="Top">
                     <Button x:Name="BtnPanelPrincipal" Content="📊  Panel Principal" Style="{StaticResource ActiveSidebarButtonStyle}" Click="BtnNavegacion_Click"/>
                     <Button x:Name="BtnCatalogoLibros" Content="📚  Catálogo de Libros" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavegacion_Click"/>
+                    <Button x:Name="BtnAutores" Content="✍️  Autores" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavegacion_Click"/>
                     <Button x:Name="BtnPrestamos" Content="🔄  Préstamos y Devoluciones" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavegacion_Click"/>
                     <Button x:Name="BtnUsuarios" Content="👥  Usuarios y Lectores" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavegacion_Click"/>
                     <Button x:Name="BtnReportes" Content="📑  Reportes y Estadísticas" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavegacion_Click"/>
@@ -143,7 +144,7 @@
                         <StackPanel>
                             <TextBlock Text="PRÉSTAMOS ACTIVOS" Foreground="#718096" FontSize="11" FontWeight="Bold"/>
                             <TextBlock x:Name="TxtPrestamosActivos" Text="0" Foreground="#2B6CB0" FontSize="26" FontWeight="Bold" Margin="0,5,0,0"/>
-                            <TextBlock x:Name="TxtVencenHoy" Text="En curso actualmente" Foreground="#DD6B20" FontSize="11" Margin="0,5,0,0"/>
+                            <TextBlock Text="En curso actualmente" Foreground="#DD6B20" FontSize="11" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Border>
 
@@ -203,7 +204,7 @@
                 </Border>
             </Grid>
 
-            <!-- 2B. CONTENEDOR PARA LAS OTRAS 5 VISTAS -->
+            <!-- 2B. CONTENEDOR PARA LAS OTRAS VISTAS -->
             <ContentControl x:Name="ContenedorVistas" Grid.Row="1" Visibility="Collapsed"/>
         </Grid>
     </Grid>

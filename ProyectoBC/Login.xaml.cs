@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Data.SqlClient;
 
 namespace ProyectoBC
 {
@@ -45,76 +46,71 @@ namespace ProyectoBC
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             string usuario = TxtUsuario.Text.Trim();
-            string password = TxtPassword.Password;
+            string password = ChkVerPassword.IsChecked == true ? TxtPasswordVisible.Text : TxtPassword.Password;
 
-            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Ingrese su usuario y contraseña.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Por favor ingrese usuario/CI y contraseña.", "Campos vacíos", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             try
             {
-                using (SqlConnection cn = ConexionDB.ObtenerConexion())
+                // 1. Verificar si es Personal (Administrador / Bibliotecario)
+                DataTable dtAdmin = ConexionDB.EjecutarConsulta(
+                    "SELECT Id_Usuario, Nombre_Usuario, Cargo FROM dbo.Login WHERE Nombre_Usuario = @u AND Contraseña = @p",
+                    new SqlParameter("@u", usuario),
+                    new SqlParameter("@p", password));
+
+                if (dtAdmin.Rows.Count > 0)
                 {
-                    cn.Open();
-
-                    string sql = @"
-                        SELECT Cargo
-                        FROM dbo.Login
-                        WHERE Nombre_Usuario = @usuario
-                        AND Contraseña = @password";
-
-                    using (SqlCommand cmd = new SqlCommand(sql, cn))
+                    MenuPrincipal menu = new MenuPrincipal();
+                    menu.WindowState = this.WindowState;
+                    if (this.WindowState == WindowState.Normal)
                     {
-                        cmd.Parameters.AddWithValue("@usuario", usuario);
-                        cmd.Parameters.AddWithValue("@password", password);
-
-                        object resultado = cmd.ExecuteScalar();
-
-                        if (resultado != null && resultado != DBNull.Value)
-                        {
-                            MessageBox.Show("Inicio de sesión exitoso.", "Bienvenido", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                            MenuPrincipal menu = new MenuPrincipal();
-                            if (this.WindowState == WindowState.Maximized)
-                            {
-                                menu.WindowState = WindowState.Maximized;
-                            }
-                            else
-                            {
-                                menu.WindowState = WindowState.Normal;
-                                menu.Width = this.Width;
-                                menu.Height = this.Height;
-                                menu.Left = this.Left;
-                                menu.Top = this.Top;
-                            }
-
-                            menu.Show();
-                            this.Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show(
-                                "Usuario o contraseña incorrectos.",
-                                "Acceso denegado",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Warning);
-
-                            TxtPassword.Clear();
-                            TxtPasswordVisible.Clear();
-                            TxtUsuario.Focus();
-                        }
+                        menu.Width = this.Width;
+                        menu.Height = this.Height;
+                        menu.Left = this.Left;
+                        menu.Top = this.Top;
                     }
+                    menu.Show();
+                    this.Close();
+                    return;
                 }
+
+                // 2. Si no es personal, verificar si es un Lector registrado (CI + Contrasena)
+                DataTable dtLector = ConexionDB.EjecutarConsulta(
+                    "SELECT ID_Lector, Nombre, Apellido, DNI_CI FROM dbo.Lector WHERE DNI_CI = @ci AND Contrasena = @p",
+                    new SqlParameter("@ci", usuario),
+                    new SqlParameter("@p", password));
+
+                if (dtLector.Rows.Count > 0)
+                {
+                    DataRow fila = dtLector.Rows[0];
+                    int idLector = Convert.ToInt32(fila["ID_Lector"]);
+                    string nombreCompleto = $"{fila["Nombre"]} {fila["Apellido"]}";
+                    string ci = fila["DNI_CI"].ToString() ?? usuario;
+
+                    PortalLectorWindow portal = new PortalLectorWindow(idLector, nombreCompleto, ci);
+                    portal.WindowState = this.WindowState;
+                    if (this.WindowState == WindowState.Normal)
+                    {
+                        portal.Width = this.Width;
+                        portal.Height = this.Height;
+                        portal.Left = this.Left;
+                        portal.Top = this.Top;
+                    }
+                    portal.Show();
+                    this.Close();
+                    return;
+                }
+
+                // 3. Si no coincide en ninguna de las dos tablas
+                MessageBox.Show("Usuario/CI o contraseña incorrectos.", "Acceso denegado", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al conectar con la base de datos:\n" + ex.Message,
-                    "Error de Conexión",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                MessageBox.Show("Error al intentar iniciar sesión:\n" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -125,6 +121,20 @@ namespace ProyectoBC
         private void BtnCerrar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+        private void BtnRegistroLector_Click(object sender, RoutedEventArgs e)
+        {
+            RegistroLector registro = new RegistroLector();
+            registro.WindowState = this.WindowState;
+            if (this.WindowState == WindowState.Normal)
+            {
+                registro.Width = this.Width;
+                registro.Height = this.Height;
+                registro.Left = this.Left;
+                registro.Top = this.Top;
+            }
+            registro.Show();
+            this.Close();
         }
     }
 }

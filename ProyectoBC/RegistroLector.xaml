@@ -1,0 +1,89 @@
+﻿<Window x:Class="ProyectoBC.RegistroLector"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Registro de Lector - Biblioteca Municipal" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Viewbox Stretch="Uniform">
+        <Grid Width="800" Height="450">
+            <!-- Mismo fondo del Login -->
+            <Image Source="/Bibliotreca.jpg" Stretch="Fill"/>
+            <Rectangle Fill="#40000000"/>
+
+            <!-- Tarjeta central amplia de 2 columnas -->
+            <Border Background="#F2FFFFFF" CornerRadius="14" Width="560" Height="370"
+                    HorizontalAlignment="Center" VerticalAlignment="Center" Padding="30,22">
+                <Border.Effect>
+                    <DropShadowEffect Color="#000000" Opacity="0.2" BlurRadius="20" ShadowDepth="4"/>
+                </Border.Effect>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Cabecera -->
+                    <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                        <TextBlock Text="Crear Cuenta de Lector" FontSize="22" FontWeight="Bold" Foreground="#1A202C" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Registra tus datos para consultar el catálogo y tus préstamos" FontSize="12" Foreground="#4A5568" HorizontalAlignment="Center" Margin="0,3,0,0"/>
+                    </StackPanel>
+
+                    <!-- Formulario en 2 columnas -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Columna Izquierda -->
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Cédula de Identidad (CI) *" FontSize="11" FontWeight="SemiBold" Foreground="#2D3748" Margin="0,0,0,4"/>
+                            <TextBox x:Name="TxtCI" Height="32" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,12"/>
+
+                            <TextBlock Text="Nombre *" FontSize="11" FontWeight="SemiBold" Foreground="#2D3748" Margin="0,0,0,4"/>
+                            <TextBox x:Name="TxtNombre" Height="32" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,12"/>
+
+                            <TextBlock Text="Apellido *" FontSize="11" FontWeight="SemiBold" Foreground="#2D3748" Margin="0,0,0,4"/>
+                            <TextBox x:Name="TxtApellido" Height="32" Padding="8,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Columna Derecha -->
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Teléfono / Celular" FontSize="11" FontWeight="SemiBold" Foreground="#2D3748" Margin="0,0,0,4"/>
+                            <TextBox x:Name="TxtTelefono" Height="32" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,12"/>
+
+                            <TextBlock Text="Crea una Contraseña *" FontSize="11" FontWeight="SemiBold" Foreground="#2D3748" Margin="0,0,0,4"/>
+                            <PasswordBox x:Name="TxtPassword" Height="32" Padding="8,0" VerticalContentAlignment="Center" Margin="0,0,0,12"/>
+
+                            <TextBlock Text="Confirmar Contraseña *" FontSize="11" FontWeight="SemiBold" Foreground="#2D3748" Margin="0,0,0,4"/>
+                            <PasswordBox x:Name="TxtConfirmarPassword" Height="32" Padding="8,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Botones inferiores -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,16,0,0">
+                        <Button Content="← Volver al Login" Width="150" Height="36" Background="#E2E8F0" Foreground="#2D3748"
+                                FontWeight="SemiBold" BorderThickness="0" Margin="0,0,15,0" Cursor="Hand" Click="BtnVolver_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <Button Content="Registrarme" Width="180" Height="36" Background="#2B6CB0" Foreground="White"
+                                FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnRegistrar_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Viewbox>
+</Window>
