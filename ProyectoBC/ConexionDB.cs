@@ -8,7 +8,7 @@ namespace ProyectoBC
     {
         // Cadena de conexión hacia tu instancia local de SQL Server Express
         public static readonly string CadenaConexion =
-            @"Server=MYHERO\SQLEXPRESS;Database=Biblioteca_Municipal;Integrated Security=True;TrustServerCertificate=True;";
+    @"Server=localhost\SQLEXPRESS;Database=Biblioteca_Municipal_BC;Integrated Security=True;TrustServerCertificate=True;";
 
         /// <summary>
         /// Devuelve una nueva instancia de SqlConnection lista para usar con 'using'.

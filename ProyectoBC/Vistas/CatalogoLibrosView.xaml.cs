@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using Microsoft.Data.SqlClient;
 using Microsoft.Win32;
@@ -307,5 +308,85 @@ namespace ProyectoBC.Vistas
         }
 
         private void TxtBuscarLibro_TextChanged(object sender, TextChangedEventArgs e) => CargarLibros(TxtBuscarLibro.Text.Trim());
+
+        private void BtnImprimirReporte_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTable dtReporte = ObtenerDataTableCatalogo();
+
+                if (dtReporte == null || dtReporte.Rows.Count == 0)
+                {
+                    MessageBox.Show("No hay libros para imprimir en el catálogo.", "Aviso",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                ReporteHelper.ImprimirDataTable(
+                    dtReporte,
+                    "Catálogo de Libros - Biblioteca Municipal",
+                    $"Generado: {DateTime.Now:dd/MM/yyyy HH:mm}"
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private DataTable ObtenerDataTableCatalogo()
+        {
+            DataTable dt = new DataTable("CatalogoLibros");
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("Título", typeof(string));
+            dt.Columns.Add("Autores", typeof(string));
+            dt.Columns.Add("Categoría", typeof(string));
+            dt.Columns.Add("Año", typeof(string));
+
+            if (DgLibros?.Items == null)
+                return dt;
+
+            foreach (var item in DgLibros.Items)
+            {
+                if (item == null || item == CollectionView.NewItemPlaceholder)
+                    continue;
+
+                if (item is DataRowView rowView)
+                {
+                    dt.Rows.Add(
+                        rowView["ID_Libro"]?.ToString() ?? "",
+                        rowView["Titulo"]?.ToString() ?? "",
+                        rowView["Autores"]?.ToString() ?? "",
+                        rowView["Nombre_Categoria"]?.ToString() ?? "",
+                        rowView["Anio_Publicacion"]?.ToString() ?? ""
+                    );
+                }
+                else
+                {
+                    var tipo = item.GetType();
+                    string LeerProp(params string[] nombres)
+                    {
+                        foreach (var n in nombres)
+                        {
+                            var prop = tipo.GetProperty(n);
+                            if (prop != null)
+                                return prop.GetValue(item)?.ToString() ?? "";
+                        }
+                        return "";
+                    }
+
+                    dt.Rows.Add(
+                        LeerProp("ID_Libro", "Id_Libro", "ID"),
+                        LeerProp("Titulo", "Título"),
+                        LeerProp("Autores"),
+                        LeerProp("Nombre_Categoria", "Categoria"),
+                        LeerProp("Anio_Publicacion", "Anio", "Año")
+                    );
+                }
+            }
+
+            return dt;
+        }
     }
 }

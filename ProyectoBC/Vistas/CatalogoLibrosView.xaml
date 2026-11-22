@@ -124,8 +124,35 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Margin="0,0,0,15">
-                    <TextBlock Text="Catálogo Registrado" FontSize="18" FontWeight="Bold" Foreground="#1A202C" VerticalAlignment="Center"/>
-                    <TextBox x:Name="TxtBuscarLibro" Width="260" Height="34" HorizontalAlignment="Right" Padding="10,0" VerticalContentAlignment="Center" ToolTip="Buscar por título, autor o editorial..." TextChanged="TxtBuscarLibro_TextChanged"/>
+                    <TextBlock Text="Catálogo Registrado"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="#1A202C"
+                               VerticalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <Button x:Name="BtnImprimirReporte"
+                                Content="Imprimir Reporte"
+                                Click="BtnImprimirReporte_Click"
+                                Height="34"
+                                Padding="12,6"
+                                Margin="0,0,10,0"
+                                Background="#2563EB"
+                                Foreground="White"
+                                FontWeight="SemiBold"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+
+                        <TextBox x:Name="TxtBuscarLibro"
+                                 Width="210"
+                                 Height="34"
+                                 Padding="10,0"
+                                 VerticalContentAlignment="Center"
+                                 ToolTip="Buscar por título, autor o editorial..."
+                                 TextChanged="TxtBuscarLibro_TextChanged"/>
+                    </StackPanel>
                 </Grid>
 
                 <DataGrid x:Name="DgLibros" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True"

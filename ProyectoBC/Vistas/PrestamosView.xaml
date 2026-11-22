@@ -50,12 +50,37 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Margin="0,0,0,15">
-                    <TextBlock Text="Historial de Préstamos y Devoluciones" FontSize="18" FontWeight="Bold" Foreground="#2D3748" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="CmbFiltroEstado" Width="160" Height="34" HorizontalAlignment="Right" SelectedIndex="0" SelectionChanged="CmbFiltroEstado_SelectionChanged">
-                        <ComboBoxItem Content="Todos"/>
-                        <ComboBoxItem Content="Activo"/>
-                        <ComboBoxItem Content="Devuelto"/>
-                    </ComboBox>
+                    <TextBlock Text="Historial de Préstamos y Devoluciones"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="#2D3748"
+                               VerticalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <Button x:Name="BtnImprimirReporte"
+                                Content="Imprimir Reporte"
+                                Click="BtnImprimirReporte_Click"
+                                Height="34"
+                                Padding="12,6"
+                                Margin="0,0,10,0"
+                                Background="#2563EB"
+                                Foreground="White"
+                                FontWeight="SemiBold"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+
+                        <ComboBox x:Name="CmbFiltroEstado"
+                                  Width="160"
+                                  Height="34"
+                                  SelectedIndex="0"
+                                  SelectionChanged="CmbFiltroEstado_SelectionChanged">
+                            <ComboBoxItem Content="Todos"/>
+                            <ComboBoxItem Content="Activo"/>
+                            <ComboBoxItem Content="Devuelto"/>
+                        </ComboBox>
+                    </StackPanel>
                 </Grid>
 
                 <DataGrid Grid.Row="1" x:Name="DgPrestamos" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"

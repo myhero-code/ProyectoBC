@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Microsoft.Data.SqlClient;
 
 namespace ProyectoBC.Vistas
@@ -121,5 +122,66 @@ namespace ProyectoBC.Vistas
         }
 
         private void TxtBuscarAutor_TextChanged(object sender, TextChangedEventArgs e) => CargarAutores(TxtBuscarAutor.Text.Trim());
+
+        private void BtnImprimirReporte_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTable dtReporte = ObtenerDataTableAutores();
+
+                if (dtReporte == null || dtReporte.Rows.Count == 0)
+                {
+                    MessageBox.Show("No hay autores para imprimir.", "Aviso",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                string filtroActual = TxtBuscarAutor.Text.Trim();
+                string subtitulo = string.IsNullOrWhiteSpace(filtroActual)
+                    ? $"Generado: {DateTime.Now:dd/MM/yyyy HH:mm}"
+                    : $"Filtro: \"{filtroActual}\"   |   Generado: {DateTime.Now:dd/MM/yyyy HH:mm}";
+
+                ReporteHelper.ImprimirDataTable(
+                    dtReporte,
+                    "Reporte de Autores - Biblioteca Municipal",
+                    subtitulo
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private DataTable ObtenerDataTableAutores()
+        {
+            DataTable dt = new DataTable("Autores");
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("Nombre del Autor", typeof(string));
+            dt.Columns.Add("Nacionalidad", typeof(string));
+            dt.Columns.Add("Libros Asociados", typeof(string));
+
+            if (DgAutores?.Items == null)
+                return dt;
+
+            foreach (var item in DgAutores.Items)
+            {
+                if (item == null || item == CollectionView.NewItemPlaceholder)
+                    continue;
+
+                if (item is DataRowView rowView)
+                {
+                    dt.Rows.Add(
+                        rowView["ID_Autor"]?.ToString() ?? "",
+                        rowView["Nombre_Autor"]?.ToString() ?? "",
+                        rowView["Nacionalidad"]?.ToString() ?? "",
+                        rowView["TotalLibros"]?.ToString() ?? ""
+                    );
+                }
+            }
+
+            return dt;
+        }
     }
 }

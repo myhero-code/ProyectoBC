@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Microsoft.Data.SqlClient;
 
 namespace ProyectoBC.Vistas
@@ -138,5 +139,76 @@ namespace ProyectoBC.Vistas
         }
 
         private void CmbFiltroEstado_SelectionChanged(object sender, SelectionChangedEventArgs e) => CargarPrestamos();
+
+        private void BtnImprimirReporte_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTable dtReporte = ObtenerDataTablePrestamos();
+
+                if (dtReporte == null || dtReporte.Rows.Count == 0)
+                {
+                    MessageBox.Show("No hay préstamos para imprimir.", "Aviso",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                string estadoActual = (CmbFiltroEstado.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Todos";
+                string subtitulo = $"Estado: {estadoActual}   |   Generado: {DateTime.Now:dd/MM/yyyy HH:mm}";
+
+                ReporteHelper.ImprimirDataTable(
+                    dtReporte,
+                    "Historial de Préstamos - Biblioteca Municipal",
+                    subtitulo
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private DataTable ObtenerDataTablePrestamos()
+        {
+            DataTable dt = new DataTable("Prestamos");
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("Lector", typeof(string));
+            dt.Columns.Add("Libro", typeof(string));
+            dt.Columns.Add("Préstamo", typeof(string));
+            dt.Columns.Add("Devolución", typeof(string));
+            dt.Columns.Add("Estado", typeof(string));
+
+            if (DgPrestamos?.Items == null)
+                return dt;
+
+            foreach (var item in DgPrestamos.Items)
+            {
+                if (item == null || item == CollectionView.NewItemPlaceholder)
+                    continue;
+
+                if (item is DataRowView rowView)
+                {
+                    string fechaPrestamo = rowView["Fecha_Prestamo"] is DateTime fp
+                        ? fp.ToString("dd/MM/yyyy")
+                        : rowView["Fecha_Prestamo"]?.ToString() ?? "";
+
+                    string fechaDevolucion = rowView["Fecha_Devolucion"] is DateTime fd
+                        ? fd.ToString("dd/MM/yyyy")
+                        : rowView["Fecha_Devolucion"]?.ToString() ?? "";
+
+                    dt.Rows.Add(
+                        rowView["ID_Prestamo"]?.ToString() ?? "",
+                        rowView["Lector"]?.ToString() ?? "",
+                        rowView["Titulo"]?.ToString() ?? "",
+                        fechaPrestamo,
+                        fechaDevolucion,
+                        rowView["Estado"]?.ToString() ?? ""
+                    );
+                }
+            }
+
+            return dt;
+        }
     }
 }

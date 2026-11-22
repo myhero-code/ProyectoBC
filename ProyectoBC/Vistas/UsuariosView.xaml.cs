@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Microsoft.Data.SqlClient;
 
 namespace ProyectoBC.Vistas
@@ -134,5 +135,74 @@ namespace ProyectoBC.Vistas
         }
 
         private void TxtBuscarLector_TextChanged(object sender, TextChangedEventArgs e) => CargarLectores(TxtBuscarLector.Text.Trim());
+
+        private void BtnImprimirReporte_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTable dtReporte = ObtenerDataTableLectores();
+
+                if (dtReporte == null || dtReporte.Rows.Count == 0)
+                {
+                    MessageBox.Show("No hay lectores para imprimir.", "Aviso",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                string filtroActual = TxtBuscarLector.Text.Trim();
+                string subtitulo = string.IsNullOrWhiteSpace(filtroActual)
+                    ? $"Generado: {DateTime.Now:dd/MM/yyyy HH:mm}"
+                    : $"Filtro: \"{filtroActual}\"   |   Generado: {DateTime.Now:dd/MM/yyyy HH:mm}";
+
+                ReporteHelper.ImprimirDataTable(
+                    dtReporte,
+                    "Directorio de Lectores - Biblioteca Municipal",
+                    subtitulo
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private DataTable ObtenerDataTableLectores()
+        {
+            DataTable dt = new DataTable("Lectores");
+            dt.Columns.Add("ID", typeof(string));
+            dt.Columns.Add("CI / DNI", typeof(string));
+            dt.Columns.Add("Nombre", typeof(string));
+            dt.Columns.Add("Apellido", typeof(string));
+            dt.Columns.Add("Teléfono", typeof(string));
+            dt.Columns.Add("Fecha Inicio", typeof(string));
+
+            if (DgLectores?.Items == null)
+                return dt;
+
+            foreach (var item in DgLectores.Items)
+            {
+                if (item == null || item == CollectionView.NewItemPlaceholder)
+                    continue;
+
+                if (item is DataRowView rowView)
+                {
+                    string fechaInicio = rowView["Fecha_Inicio"] is DateTime fi
+                        ? fi.ToString("dd/MM/yyyy")
+                        : rowView["Fecha_Inicio"]?.ToString() ?? "";
+
+                    dt.Rows.Add(
+                        rowView["ID_Lector"]?.ToString() ?? "",
+                        rowView["DNI_CI"]?.ToString() ?? "",
+                        rowView["Nombre"]?.ToString() ?? "",
+                        rowView["Apellido"]?.ToString() ?? "",
+                        rowView["Telefono"]?.ToString() ?? "",
+                        fechaInicio
+                    );
+                }
+            }
+
+            return dt;
+        }
     }
 }
